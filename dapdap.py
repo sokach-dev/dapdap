@@ -49,12 +49,10 @@ class Browser:
         self.browser.find_element(By.CSS_SELECTOR, "button[data-testid='create-password-import']").click()
 
         sleep(2)
-        print("import wallet will")
         WebDriverWait(self.browser, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, "button[data-testid='onboarding-complete-done']"))).click()
         self.browser.find_element(By.CSS_SELECTOR, "button[data-testid='pin-extension-next']").click()
         self.browser.find_element(By.CSS_SELECTOR, "button[data-testid='pin-extension-done']").click()
         WebDriverWait(self.browser, 5).until(EC.presence_of_element_located((By.CSS_SELECTOR, "button[data-testid='popover-close']"))).click()
-        print("import wallet success")
 
 
     def input_private_key(self, keys):
@@ -326,6 +324,7 @@ if __name__ == '__main__':
             UPDATE wallet SET used = ? WHERE id = ?
             ''', (pts, wallet[0]))
             connection.commit()
+            print("total_pts: ", pts)
         except Exception as e:
             print("error: ", e)
             print("id: ", wallet[0], "mnemonic: ", mnemonic)
