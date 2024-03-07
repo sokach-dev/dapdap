@@ -14,6 +14,7 @@ class Browser:
         self.browserOption = webdriver.ChromeOptions()
         self.browserOption.add_extension(extension_path)
         self.browserOption.add_argument('--proxy-server=' + proxy_server)
+        self.browserOption.add_argument('--mute-audio')
         self.browser = webdriver.Chrome(options=self.browserOption)
         self.private_key_path = private_key_path
         self.private_keys = [[]]
@@ -173,7 +174,7 @@ class Browser:
         sleep(1.5)
         # 点击跳转浏览
         WebDriverWait(self.browser, 10).until(EC.presence_of_element_located((By.XPATH, "//span[contains(text(), 'Explore the Base homepage on DapDap to discover more about Base')]"))).click()
-        sleep(5)
+        sleep(7)
         self.back()
         sleep(2)
         # base_projects = ["https://www.dapdap.net/dapps-details?dapp_id=74", "https://www.dapdap.net/dapps-details?dapp_id=52", "https://www.dapdap.net/dapps-details?dapp_id=39"]
