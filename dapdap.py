@@ -64,7 +64,7 @@ class Browser:
     def connect_wallet(self):
         # 点击链接钱包
         self.browser.maximize_window() # 浏览器窗口最大化，不然点不到
-        self.browser.find_element(By.XPATH, "//div[contains(text(), 'Connect wallet & Claim')]").click()
+        self.browser.find_element(By.XPATH, "//button[contains(text(), 'Connect Wallet')]").click()
 
         # 加载影子节点
         showShadowRoot = self.browser.find_element(By.CSS_SELECTOR, "onboard-v2").get_property('shadowRoot')
@@ -81,65 +81,11 @@ class Browser:
         self.browser.close()
         self.switch_to(0)
 
-        sleep(1)
-        self.browser.execute_script("window.scrollTo(0, 300);")
-        sleep(3)
-
-        self.browser.find_element(By.XPATH, "//div[contains(text(), 'Visit the DapDap Homepage')]").click()
-        sleep(1.5)
-        self.switch_to(1)
-        self.browser.close()
-        self.switch_to(0)
-
-        sleep(2)
-        self.browser.find_element(By.XPATH, "//div[contains(text(), 'Explore DapDap Quick Onboarding')]").click()
-        sleep(1.5)
-        self.switch_to(1)
-        sleep(1)
-        self.browser.close()
-        self.switch_to(0)
-
-        sleep(2)
-        self.browser.find_element(By.XPATH, "//div[contains(text(), 'Explore DapDap QuestCampaign')]").click()
-        sleep(1.5)
-        self.switch_to(1)
-        self.browser.close()
-        self.switch_to(0)
-        sleep(1)
-
-        self.browser.refresh()
-
-        sleep(3)
-        self.browser.execute_script("window.scrollTo(0,0);")
-        sleep(2)
-
-        self.browser.find_element(By.ID, "14").click()
-        sleep(3)
-        click_ok = self.browser.find_elements(By.XPATH, "//img[@class='sc-9008961e-2 eveYpJ']")
-        if len(click_ok) > 0:
-            WebDriverWait(self.browser, 10).until(EC.presence_of_element_located((By.XPATH, "//img[@class='sc-9008961e-2 eveYpJ']"))).click()
-
-        sleep(1)
-        self.browser.execute_script("window.scrollTo(0, 300);")
-        sleep(2)
-
-        sleep(1)
-        claim_buttons = WebDriverWait(self.browser, 10).until(EC.presence_of_all_elements_located((By.XPATH, "//button[@class='sc-b6c5a104-36 gQmfOB']")))
-        for i in range(3):
-            claim_buttons[i].click()
-            sleep(2)
-            WebDriverWait(self.browser, 10).until(EC.presence_of_element_located((By.XPATH, "//img[@class='sc-9008961e-2 eveYpJ']"))).click()
-            sleep(2)
-        print("connect wallet success")
-
-        # 点击图标进入主页
-        WebDriverWait(self.browser, 10).until(EC.presence_of_element_located((By.XPATH, "//div[@class='sc-97d8b0ba-3 jyaExZ']"))).click()
-        sleep(5)
 
     def earn_score(self):
         # 点击领取积分
-        self.browser.find_element(By.XPATH, "//div[contains(text(), 'Earn Rewards')]").click()
-        #self.browser.find_element(By.CSS_SELECTOR, "[data-bp='20011-001']").click()
+        # self.browser.find_element(By.XPATH, "//div[contains(text(), 'Earn Rewards')]").click()
+        WebDriverWait(self.browser, 10).until(EC.presence_of_element_located((By.XPATH, "//div[contains(text(), 'Earn Rewards')]"))).click()
     
     def switch_earn_score(self):
         url = "https://www.dapdap.net/quest/leaderboard"
@@ -154,9 +100,8 @@ class Browser:
         WebDriverWait(self.browser, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, ".sc-54f168e4-0"))).click()
         # 签到
         WebDriverWait(self.browser, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, ".sc-80d397d3-8"))).click()
-        # 点击邀请好友
-        WebDriverWait(self.browser, 10).until(EC.presence_of_element_located((By.XPATH, "//span[contains(text(), 'Invite code')]"))).click()
-        sleep(2)
+        # 点击分享
+        WebDriverWait(self.browser, 10).until(EC.presence_of_element_located((By.XPATH, "//span[contains(text(), 'Invite Link')]"))).click()
     
     # 点击搜索
     def click_search(self):
@@ -194,7 +139,7 @@ class Browser:
         # 浏览bitget页面
         self.browser.get(bitget_url)
         WebDriverWait(self.browser, 10).until(EC.presence_of_element_located((By.XPATH, "//span[contains(text(), 'Visit the Bitget download page and download the Bitget wallet.')]"))).click()
-        sleep(1)
+        sleep(2)
         self.switch_to(1)
         self.browser.close()
         self.switch_to(0)
@@ -264,7 +209,7 @@ class Browser:
             sleep(2)
             self.browser.execute_script("window.scrollTo(0, 400);")
         
-        total_pts = WebDriverWait(self.browser, 10).until(EC.presence_of_element_located((By.XPATH, "//div[@class='sc-258edd1c-11 knJuWT']"))).text
+        total_pts = WebDriverWait(self.browser, 10).until(EC.presence_of_element_located((By.XPATH, "//div[@class='sc-6143faca-13 cGZnhM']"))).text
         return int(total_pts.split(" ")[0])
 
 
@@ -275,7 +220,7 @@ def do(private_key):
         'http://127.0.0.1:1087',
         '/Users/lele/develop/Selenium/dapdap_selenium/private_keys.txt'
         )
-    browser.navigate("https://www.dapdap.net/invite/Devbose")
+    browser.navigate("https://www.dapdap.net/referral/e5be34")
     browser.switch_to(1)
 
     browser.import_wallet(private_key)
@@ -303,7 +248,7 @@ def do(private_key):
 
 
 if __name__ == '__main__':
-    connection = sqlite3.connect('dapdap.db')
+    connection = sqlite3.connect('dapdap_1.db')
     cursor = connection.cursor()
 
     for i in range(1,30000):

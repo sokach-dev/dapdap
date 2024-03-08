@@ -19,7 +19,7 @@ if __name__ == "__main__":
     # print(private_key)
     # print(address)
 
-    connection = sqlite3.connect('dapdap.db')
+    connection = sqlite3.connect('dapdap_1.db')
     cursor = connection.cursor()
 
     cursor.execute('''
@@ -31,7 +31,7 @@ if __name__ == "__main__":
         used INTEGER DEFAULT 0
     );
     ''')
-    for i in range(30000):
+    for i in range(20000):
         mnemonic, private_key, address = generate_eth_wallet(None)
         cursor.execute('''
         INSERT INTO wallet (mnemonic, private_key, address) VALUES (?, ?, ?)
