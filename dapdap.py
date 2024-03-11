@@ -61,6 +61,16 @@ class Browser:
         # 点击确认按钮
         self.browser.find_element(By.CSS_SELECTOR, 'button[data-testid="import-srp-confirm"]').click()
 
+    def connected_wallet(self):
+        # 点击链接钱包
+        self.browser.maximize_window() # 浏览器窗口最大化，不然点不到
+        connect_buttons = self.browser.find_element(By.XPATH, "//button[contains(text(), 'Connect Wallet')]")
+        if len(connect_buttons) == 0:
+            return
+        connect_buttons[0].click()
+        sleep(1)
+
+
     def connect_wallet(self):
         # 点击链接钱包
         self.browser.maximize_window() # 浏览器窗口最大化，不然点不到
@@ -138,6 +148,9 @@ class Browser:
         # url="https://www.dapdap.net/quest/detail?id=35"
         # 浏览bitget页面
         self.browser.get(bitget_url)
+        sleep(1)
+        self.connected_wallet()
+        sleep(1)
         WebDriverWait(self.browser, 10).until(EC.presence_of_element_located((By.XPATH, "//span[contains(text(), 'Visit the Bitget download page and download the Bitget wallet.')]"))).click()
         sleep(2)
         self.switch_to(1)
