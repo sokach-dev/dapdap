@@ -166,51 +166,52 @@ class Browser:
         sleep(2)
 
     def odyssey_match(self):
+        sleep(60)
         self.browser.get("https://www.dapdap.net/odyssey/home?id=2")
         sleep(2)
         self.play_game()
-        self.explore_linea()
-        sleep(2)
-        self.browser.get("https://www.dapdap.net/odyssey/home?id=2")
-        sleep(2)
-        # Enter secret password
-        social_position = self.browser.find_element(By.CSS_SELECTOR, ".kWBNnk")
-        self.browser.execute_script("arguments[0].scrollIntoView(true);", social_position)
-        sleep(5)
-        try:
-            # input_secret = WebDriverWait(self.browser, 10).until(EC.presence_of_element_located(By.CSS_SELECTOR, ".kVBcWS"))
-            input_secret = self.browser.find_element(By.CSS_SELECTOR, ".kVBcWS")
-            input_secret.send_keys("DapDap X Linea")
-            self.browser.find_element(By.CSS_SELECTOR, ".hfAkLw").click()
-        except Exception as e:
-            print(f"enter secret password error: {e}")
-            pass
+        # self.explore_linea()
+        # sleep(2)
+        # self.browser.get("https://www.dapdap.net/odyssey/home?id=2")
+        # sleep(2)
+        # # Enter secret password
+        # social_position = self.browser.find_element(By.CSS_SELECTOR, ".kWBNnk")
+        # self.browser.execute_script("arguments[0].scrollIntoView(true);", social_position)
+        # sleep(5)
+        # try:
+        #     # input_secret = WebDriverWait(self.browser, 10).until(EC.presence_of_element_located(By.CSS_SELECTOR, ".kVBcWS"))
+        #     input_secret = self.browser.find_element(By.CSS_SELECTOR, ".kVBcWS")
+        #     input_secret.send_keys("DapDap X Linea")
+        #     self.browser.find_element(By.CSS_SELECTOR, ".hfAkLw").click()
+        # except Exception as e:
+        #     print(f"enter secret password error: {e}")
+        #     pass
 
-        sleep(2)
-        # visit the linea
-        try:
-            visit =self.browser.find_element(By.XPATH, "//div[text()='Visit the Linea network page']")
-            visit.click()
-            sleep(2)
-            self.switch_to(1)
-            sleep(1.5)
-            self.browser.close()
-            self.switch_to(0)
-            visit.find_element(By.CSS_SELECTOR, ".cqRgKD").click()
-        except Exception as e:
-            print(f"visit linea error: {e}")
-            pass
+        # sleep(2)
+        # # visit the linea
+        # try:
+        #     visit =self.browser.find_element(By.XPATH, "//div[text()='Visit the Linea network page']")
+        #     visit.click()
+        #     sleep(2)
+        #     self.switch_to(1)
+        #     sleep(1.5)
+        #     self.browser.close()
+        #     self.switch_to(0)
+        #     visit.find_element(By.CSS_SELECTOR, ".cqRgKD").click()
+        # except Exception as e:
+        #     print(f"visit linea error: {e}")
+        #     pass
 
-        # Start
-        flip_match_position = self.browser.find_element(By.CSS_SELECTOR, ".fdguFR")
-        self.browser.execute_script("arguments[0].scrollIntoView(true);", flip_match_position)
-        sleep(1)
+        # # Start
+        # flip_match_position = self.browser.find_element(By.CSS_SELECTOR, ".fdguFR")
+        # self.browser.execute_script("arguments[0].scrollIntoView(true);", flip_match_position)
+        # sleep(1)
 
-        # get enegy number
-        enegy_number = self.browser.find_element(By.CSS_SELECTOR, ".cdKzPR").text
-        print(f"enegy number: {enegy_number}")
+        # # get enegy number
+        # enegy_number = self.browser.find_element(By.CSS_SELECTOR, ".cdKzPR").text
+        # print(f"enegy number: {enegy_number}")
 
-        self.play_game()
+        # self.play_game()
 
         try:
             # 点击啊claim按钮
@@ -219,6 +220,7 @@ class Browser:
         except Exception as e:
             print(f"claim error {e}")
             pass
+        sleep(20)
 
     # 探索Base页面
     def explore(self, base_url, base_projects):
@@ -258,6 +260,28 @@ class Browser:
         self.switch_to(0)
         sleep(1)
         self.switch_earn_score()
+
+    def spin_game(self, game_url):
+        sleep(40)
+        self.browser.get(game_url)
+        sleep(3.5)
+        self.browser.refresh()
+        sleep(5)
+
+        ele1 = self.browser.find_element(By.XPATH, "//div[@class='sc-a2aeaff6-4 fNAbPH']")
+        self.browser.execute_script("arguments[0].scrollIntoView();", ele1)
+        # self.browser.execute_script("window.scrollTo(0, 800);")
+        sleep(2)
+        for i in range(200):
+            sleep(1.5)
+            WebDriverWait(self.browser, 10).until(EC.presence_of_element_located((By.XPATH, "//div[@class='sc-a2aeaff6-23 XXEhS']"))).click()
+            WebDriverWait(self.browser, 15).until(EC.presence_of_element_located((By.XPATH, "//div[@class='sc-e10d8647-2 jmgyFp']"))).click()
+
+        sleep(1)
+        # 点击提取
+        WebDriverWait(self.browser, 15).until(EC.presence_of_element_located((By.XPATH, "//div[@class='sc-a2aeaff6-20 hzciMW']"))).click()
+        sleep(2)
+
 
     # 游戏
     def scan_game(self, game_url):
@@ -356,7 +380,10 @@ def do(private_key):
     sleep(1)
     # 奥德赛游戏
     browser.odyssey_match()
+    # 转轮游戏
+    # browser.spin_game("https://www.dapdap.net/odyssey/home?id=1")
     # 进入赚钱页面
+    '''
     browser.earn_score()
     # 签到
     browser.sign_in()
@@ -372,6 +399,7 @@ def do(private_key):
     sleep(1)
     browser.click_search()
     return browser.claim("https://www.dapdap.net/profile")
+    '''
 
 
 if __name__ == '__main__':
@@ -391,6 +419,9 @@ if __name__ == '__main__':
         connection.commit()
         mnemonic = wallet[1].strip().split(" ")
 
+        
+        mnemonic = ['ice','wedding','grant', 'flame', 'used', 'great', 'deny', 'make', 'nasty', 'club', 'exotic', 'health']
+
         # try:
             # pts = do(mnemonic)
             # cursor.execute('''
@@ -405,13 +436,13 @@ if __name__ == '__main__':
             # continue
 
         pts = do(mnemonic)
-        cursor.execute('''
-        UPDATE wallet SET used = ? WHERE id = ?
-        ''', (pts, wallet[0]))
-        connection.commit()
-        print("total_pts: ", pts)
+        # cursor.execute('''
+        # UPDATE wallet SET used = ? WHERE id = ?
+        # ''', (pts, wallet[0]))
+        # connection.commit()
+        # print("total_pts: ", pts)
 
-        print("success done: ", i, "id: ", wallet[0], " mnemonic: ", mnemonic)
+        # print("success done: ", i, "id: ", wallet[0], " mnemonic: ", mnemonic)
         sleep(5)
 
     cursor.close()
